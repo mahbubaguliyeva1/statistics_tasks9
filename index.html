@@ -1,118 +1,186 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Probability Interpretations & Axioms</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Probability Interpretations & Axioms — Interactive Guide</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
   <style>
-    body { font-family: Arial, sans-serif; margin: 40px; background: #f3f5ff; color: #222; line-height: 1.7; }
-    h1, h2, h3 { color: #1f2f75; }
-    pre { background: #1e1e1e; color: #f1f1f1; padding: 14px; border-radius: 8px; overflow-x: auto; font-size: 15px; }
-    .card { background: #fff; padding: 26px; margin: 26px 0; border-radius: 14px; box-shadow: 0 4px 14px rgba(0,0,0,0.12); }
-    ul { margin-left: 25px; }
+    :root{--bg:#0f1724;--card:#0b1220;--muted:#9aa4b2;--accent:#60a5fa;--glass:rgba(255,255,255,0.03)}
+    html,body{height:100%;margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,"Helvetica Neue",Arial;color:#e6eef6;background:linear-gradient(180deg,#071024 0%, #081428 40%, #071827 100%);}
+    .container{max-width:1100px;margin:36px auto;padding:28px;border-radius:16px;background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);box-shadow:0 10px 30px rgba(2,6,23,0.7)}
+    header{display:flex;align-items:center;gap:16px}
+    .logo{width:64px;height:64px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(135deg,var(--accent),#7c3aed);font-weight:800;color:#06132b}
+    h1{margin:0;font-size:22px}
+    p.lead{margin:6px 0 24px;color:var(--muted)}
+    nav{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px}
+    .pill{background:var(--glass);padding:8px 12px;border-radius:999px;color:var(--muted);font-weight:600;font-size:13px}
+    .grid{display:grid;grid-template-columns:1fr 360px;gap:20px}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.02));padding:18px;border-radius:12px;border:1px solid rgba(255,255,255,0.03)}
+    h2{margin-top:4px}
+    code{background:#021226;padding:2px 6px;border-radius:6px;font-family:monospace}
+    ol{padding-left:18px}
+    .example{background:linear-gradient(90deg, rgba(96,165,250,0.06), rgba(124,58,237,0.03));padding:12px;border-radius:8px;margin:10px 0;border-left:3px solid rgba(96,165,250,0.25)}
+    .math{font-family:serif;margin:8px 0;padding:10px;background:rgba(255,255,255,0.01);border-radius:8px}
+    footer{margin-top:18px;color:var(--muted);font-size:13px}
+    /* responsive */
+    @media (max-width:980px){.grid{grid-template-columns:1fr}}
+    /* small interactive box */
+    .box{padding:10px;border-radius:8px;background:linear-gradient(180deg, rgba(0,0,0,0.25), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.03)}
+    button{background:var(--accent);color:#04263b;padding:8px 10px;border:none;border-radius:8px;font-weight:700;cursor:pointer}
+    svg{max-width:100%}
   </style>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
+  <div class="container">
+    <header>
+      <div class="logo">P</div>
+      <div>
+        <h1>Probability: Interpretations, Axioms & Measure Theory</h1>
+        <p class="lead">Practical explanations, derivations, and an interactive HTML guide. Scroll, read, and try the examples.</p>
+      </div>
+    </header>
 
-<h1>Probability: Interpretations, Axioms, Measure Theory, and Derived Properties</h1>
-<p>This page provides a comprehensive explanation of the main interpretations of probability, the axiomatic framework, and the deep relationship between probability theory and measure theory. It also includes formal derivations of subadditivity and the inclusion–exclusion principle.</p>
+    <nav>
+      <div class="pill">Interpretations</div>
+      <div class="pill">Axioms & Proofs</div>
+      <div class="pill">Measure Theory</div>
+      <div class="pill">Examples</div>
+      <div class="pill">Interactive</div>
+    </nav>
 
-<div class="card">
-<h2>1. Main Interpretations of Probability</h2>
+    <div class="grid">
+      <main class="card">
+        <section>
+          <h2>1. Main interpretations of probability</h2>
+          <p>Briefly — there are several ways people think about probability. They overlap but emphasize different uses.</p>
+          <ul>
+            <li><strong>Classical (Laplace):</strong> Probability = favorable outcomes / total equally likely outcomes. Works when symmetry is present (fair coin, fair die).</li>
+            <li><strong>Frequentist:</strong> Probability = long-run relative frequency of occurrence under repeating identical trials (e.g., proportion of heads in many coin tosses).</li>
+            <li><strong>Bayesian (subjective):</strong> Probability = degree of belief about a proposition, updated via Bayes' rule when new evidence arrives.</li>
+            <li><strong>Geometric (continuous):</strong> Use geometric ratios (length, area, volume) as probabilities — e.g., Buffon's needle, random points on a segment.</li>
+            <li><strong>Axiomatic (Kolmogorov):</strong> Abstracts prior interpretations into three axioms (nonnegativity, normalization, countable additivity), forming the rigorous foundation used today.</li>
+          </ul>
 
-<h3>1.1 Classical Interpretation</h3>
-<p>The classical (Laplacean) interpretation defines probability as:</p>
-<pre>P(A) = |A| / |Ω|</pre>
-<p>This interpretation assumes all outcomes are equally likely. It works well for symmetric games (dice, cards) but fails when outcomes are not equiprobable.</p>
+          <div class="example">
+            <strong>Practical examples:</strong>
+            <ol>
+              <li><strong>Classical:</strong> Probability of rolling a 4 on a fair d6 is 1/6.</li>
+              <li><strong>Frequentist:</strong> If you run 10,000 rolls of a die and see 1680 fours, the estimated probability is 0.168 — frequency-based estimate.</li>
+              <li><strong>Bayesian:</strong> A medical test: prior prevalence 1%, test sensitivity 95%, specificity 90% — compute posterior P(disease|positive) via Bayes' rule (interactive example in the sidebar).</li>
+              <li><strong>Geometric:</strong> Randomly choose a point in a unit square; probability it falls inside the inscribed circle = area(circle)/area(square)=\(\pi/4\).</li>
+            </ol>
+          </div>
+        </section>
 
-<h3>1.2 Frequentist Interpretation</h3>
-<p>Probability is defined as the limit of long-run frequencies:</p>
-<pre>P(A) = lim_{n → ∞} N_A(n) / n</pre>
-<p>It is objective and operational, but cannot assign probabilities to unique or non-repeatable events (e.g., tomorrow's rain).</p>
+        <section>
+          <h2>2. How axioms resolve conceptual inconsistencies</h2>
+          <p>The axiomatic approach doesn't replace other interpretations; it <em>unifies</em> them by providing rules any interpretation must obey. The three Kolmogorov axioms are:</p>
+          <div class="math">(A1) \(P(A)\ge 0\) for any event \(A\).<br>(A2) \(P(\Omega)=1\).<br>(A3) For disjoint events \(A_i\), \(P\big(\bigcup_{i=1}^\infty A_i\big)=\sum_{i=1}^\infty P(A_i)\).</div>
 
-<h3>1.3 Bayesian Interpretation</h3>
-<p>Probability measures subjective belief. Beliefs are updated using Bayes' theorem:</p>
-<pre>P(A|B) = [P(B|A)P(A)] / P(B)</pre>
-<p>This interpretation handles unique events but depends on prior selection, which critics consider subjective.</p>
+          <p>Why useful:</p>
+          <ul>
+            <li>They allow classical and geometric interpretations to be treated as special constructions of a probability measure on a finite or continuous sample space.</li>
+            <li>Frequentist relative frequencies converge (under conditions) to probability measures — axioms define the target mathematical object.</li>
+            <li>Bayesian degrees of belief are valid as long as they behave like a probability measure (coherence); axioms force consistency of updates via Bayes' theorem.</li>
+            <li>Conflicts (e.g., whether probability is "physical" or "epistemic") become philosophical but not mathematical: the axioms give a single framework both views can map to.</li>
+          </ul>
+        </section>
 
-<h3>1.4 Geometric Interpretation</h3>
-<p>For continuous sample spaces:</p>
-<pre>P(A) = measure(A) / measure(Ω)</pre>
-<p>Used in problems of lengths, areas, and volumes (e.g., Buffon's needle).</p>
+        <section>
+          <h2>3. Probability theory ↔ Measure theory</h2>
+          <p>Probability theory is a special case of measure theory. The connections:</p>
+          <ul>
+            <li><strong>Sample space \(\Omega\)</strong>: universe of outcomes.</li>
+            <li><strong>Sigma-algebra \(\mathcal{F}\)</strong>: collection of events (subsets of \(\Omega\)) closed under complement and countable unions. Ensures measurability and well-defined probabilities for limits of events.</li>
+            <li><strong>Probability measure \(P\)</strong>: a measure with \(P(\Omega)=1\). All axioms of measure hold (nonnegativity, countable additivity).</li>
+            <li><strong>Measurable function:</strong> A function \(X:\Omega\to\mathbb{R}\) is measurable if \(\{\omega:X(\omega)\le x\}\in\mathcal{F}\) for all real \(x\). This lets us define probabilities about \(X\), integrals, expectations.</li>
+            <li><strong>Random variable:</strong> A measurable function. Distribution of \(X\) is the pushforward measure \(P_X(B)=P(X\in B)\).</li>
+          </ul>
 
-<h3>1.5 How the Axiomatic Approach Resolves Conflicts</h3>
-<p>Kolmogorov’s axioms treat probability as a measure defined on a σ-algebra:</p>
-<ul>
-  <li>Nonnegativity: P(A) ≥ 0</li>
-  <li>Normalization: P(Ω) = 1</li>
-  <li>Countable additivity: P(⋃ Aᵢ) = Σ P(Aᵢ) for disjoint Aᵢ</li>
-</ul>
-<p>The axiomatic approach does not rely on subjective belief, frequency limits, or equiprobability, thus providing a single mathematically consistent framework that all interpretations must respect.</p>
-</div>
+          <p class="muted">Why sigma-algebras? Some subsets in infinite spaces are pathological — sigma-algebras restrict to a collection where measure behaves nicely (Borel sigma-algebra for topological spaces; Lebesgue sigma-algebra for integration).</p>
 
-<div class="card">
-<h2>2. Probability Theory and Measure Theory</h2>
+        </section>
 
-<h3>2.1 Sample Space (Ω)</h3>
-<p>The set of all possible outcomes.</p>
+        <section>
+          <h2>4. Derivations: Subadditivity & Inclusion–Exclusion</h2>
+          <h3>Subadditivity</h3>
+          <p>Statement: For events \(A_1,A_2,\dots\),</p>
+          <div class="math">\(P\left(\bigcup_{i=1}^\infty A_i\right) \le \sum_{i=1}^\infty P(A_i).\)</div>
+          <p>Proof (simple and standard):</p>
+          <ol>
+            <li>Define disjoint sets by: \(B_1=A_1\), \(B_2=A_2\setminus A_1\), \(B_3=A_3\setminus(A_1\cup A_2)\), etc. Then the \(B_i\) are mutually disjoint and \(\bigcup_i A_i=\bigcup_i B_i\).</li>
+            <li>By countable additivity (axiom A3): \(P\big(\bigcup_i A_i\big)=\sum_i P(B_i)\).</li>
+            <li>For each \(i\), \(B_i\subseteq A_i\) so \(P(B_i)\le P(A_i)\) by monotonicity (derived from axioms). Summing gives the result.</li>
+          </ol>
 
-<h3>2.2 σ-Algebra (𝓕)</h3>
-<p>A collection of subsets of Ω satisfying:</p>
-<ul>
-  <li>Ω ∈ 𝓕</li>
-  <li>If A ∈ 𝓕, then Aᶜ ∈ 𝓕</li>
-  <li>If A₁, A₂, ... ∈ 𝓕, then ⋃ Aᵢ ∈ 𝓕</li>
-</ul>
-<p>This ensures probabilities can be defined consistently even for infinite processes.</p>
+          <h3>Inclusion–Exclusion principle</h3>
+          <p>Two-set version (exact):</p>
+          <div class="math">\(P(A\cup B)=P(A)+P(B)-P(A\cap B).\)</div>
+          <p>Proof: Partition \(A\cup B\) into disjoint pieces \(A\setminus B, B\setminus A, A\cap B\), apply additivity.</p>
 
-<h3>2.3 Probability Measure (P)</h3>
-<p>A function P: 𝓕 → [0,1] satisfying Kolmogorov’s axioms. It generalizes both discrete probabilities and geometric probabilities.</p>
+          <p>Three-set version:</p>
+          <div class="math">\(P(A\cup B\cup C)=P(A)+P(B)+P(C)-P(A\cap B)-P(A\cap C)-P(B\cap C)+P(A\cap B\cap C).\)</div>
+          <p>Proof sketch: Count each region in the Venn diagram with inclusion/exclusion to correct overcounts; formal proof uses algebraic rearrangement or indicator functions \(1_A\) and expectation: \(1_{A\cup B\cup C}=1_A+1_B+1_C-1_{A}1_{B}-\dots+1_A1_B1_C\) and take expectations.</p>
 
-<h3>2.4 Measurable Functions and Random Variables</h3>
-<p>A random variable is a measurable function:</p>
-<pre>X : Ω → ℝ</pre>
-<p>Meaning that for any Borel set B ⊆ ℝ:</p>
-<pre>X⁻¹(B) ∈ 𝓕</pre>
-<p>This connection between probability and measure theory allows defining expectations, distributions, integrals, and convergence precisely.</p>
-</div>
+          <p>General n-set formula exists but gets combinatorial (alternating sums over intersections of every size).</p>
 
-<div class="card">
-<h2>3. Deriving Subadditivity (from the Axioms)</h2>
+        </section>
 
-<h3>Goal:</h3>
-<pre>P(A ∪ B) ≤ P(A) + P(B)</pre>
+        <section>
+          <h2>5. More practical examples & exercises</h2>
+          <ol>
+            <li><strong>Bayes & medical test:</strong> Prior 1\%, sensitivity 95\%, specificity 90\%. Posterior = \(\dfrac{0.95\cdot0.01}{0.95\cdot0.01+0.10\cdot0.99}\approx0.087\) (8.7%). Try changing priors.</li>
+            <li><strong>Geometric:</strong> Random chord in a circle — different selection methods give different probabilities (Bertrand paradox); shows need to specify the sampling rule and sigma-algebra on continuous spaces.</li>
+            <li><strong>Measure-theoretic:</strong> Let \(\Omega=[0,1]\) with Lebesgue measure \(m\). For \(A=[0,1/3]\) and \(B=(1/4,2/3]\), compute \(m(A\cup B)=5/12\) and verify additivity for disjoint pieces.</li>
+          </ol>
 
-<h3>Proof:</h3>
-<p>Define:</p>
-<pre>B' = B \ A</pre>
-<p>Then:</p>
-<pre>A ∪ B = A ∪ B'</pre>
-and A and B′ are disjoint.
+        </section>
 
-<p>By countable additivity for disjoint sets:</p>
-<pre>P(A ∪ B) = P(A) + P(B')</pre>
-<p>Because B′ ⊆ B, monotonicity (derived from axioms) implies:</p>
-<pre>P(B') ≤ P(B)</pre>
-<p>Thus:</p>
-<pre>P(A ∪ B) ≤ P(A) + P(B)</pre>
-</div>
+        <footer>
+          This guide is intentionally compact but rigorous. The full interactive HTML + examples are available as the project <code>index.html</code> in the canvas (open the file to inspect or copy to a GitHub repo).
+        </footer>
+      </main>
 
-<div class="card">
-<h2>4. Inclusion–Exclusion Principle</h2>
+      <aside class="card">
+        <div class="box">
+          <h3>Interactive snippets</h3>
+          <p>Bayes calculator</p>
+          <label>Prior (%): <input id="prior" type="number" value="1" step="0.1"/></label><br/>
+          <label>Sensitivity (%): <input id="sens" type="number" value="95" step="0.1"/></label><br/>
+          <label>Specificity (%): <input id="spec" type="number" value="90" step="0.1"/></label><br/><br/>
+          <button id="calc">Compute P(disease | +)</button>
+          <p id="result" style="margin-top:10px;font-weight:700"></p>
+        </div>
 
-<h3>Two Events</h3>
-<pre>P(A ∪ B) = P(A) + P(B) - P(A ∩ B)</pre>
+        <div style="height:16px"></div>
 
-<h3>Three Events</h3>
-<pre>P(A ∪ B ∪ C) = P(A) + P(B) + P(C)
- - P(A ∩ B) - P(A ∩ C) - P(B ∩ C)
- + P(A ∩ B ∩ C)</pre>
+        <div class="box">
+          <h4>Quick facts</h4>
+          <ul style="color:var(--muted)">
+            <li>Probability measures are measures with total mass 1.</li>
+            <li>Random variables are measurable functions.</li>
+            <li>Expectation = integral of \(X\) w.r.t. \(P\).</li>
+          </ul>
+        </div>
 
-<h3>General Formula</h3>
-<pre>P(⋃ᵢ Aᵢ) = Σ P(Aᵢ) − Σ P(Aᵢ ∩ Aⱼ)
- + Σ P(Aᵢ ∩ Aⱼ ∩ Aₖ) − ...</pre>
-<p>The principle corrects overcounting caused by the union operation. It follows directly from additivity and the structure of overlapping sets.</p>
-</div>
+        <script>
+          // small Bayes calculator
+          document.addEventListener('click', function(e){ if(e.target && e.target.id==='calc'){
+            const prior = Number(document.getElementById('prior').value)/100;
+            const sens = Number(document.getElementById('sens').value)/100;
+            const spec = Number(document.getElementById('spec').value)/100;
+            const pPos = sens*prior + (1-spec)*(1-prior);
+            const post = (sens*prior)/pPos;
+            document.getElementById('result').innerText = 'Posterior ≈ ' + (post*100).toFixed(3) + '%';
+          }});
+        </script>
 
+      </aside>
+    </div>
+  </div>
 </body>
 </html>
+
