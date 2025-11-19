@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Probability Interpretations & Axioms</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 40px; background: #f3f5ff; color: #222; line-height: 1.7; }
+    h1, h2, h3 { color: #1f2f75; }
+    pre { background: #1e1e1e; color: #f1f1f1; padding: 14px; border-radius: 8px; overflow-x: auto; font-size: 15px; }
+    .card { background: #fff; padding: 26px; margin: 26px 0; border-radius: 14px; box-shadow: 0 4px 14px rgba(0,0,0,0.12); }
+    ul { margin-left: 25px; }
+  </style>
+</head>
+<body>
+
+<h1>Probability: Interpretations, Axioms, Measure Theory, and Derived Properties</h1>
+<p>This page provides a comprehensive explanation of the main interpretations of probability, the axiomatic framework, and the deep relationship between probability theory and measure theory. It also includes formal derivations of subadditivity and the inclusion–exclusion principle.</p>
+
+<div class="card">
+<h2>1. Main Interpretations of Probability</h2>
+
+<h3>1.1 Classical Interpretation</h3>
+<p>The classical (Laplacean) interpretation defines probability as:</p>
+<pre>P(A) = |A| / |Ω|</pre>
+<p>This interpretation assumes all outcomes are equally likely. It works well for symmetric games (dice, cards) but fails when outcomes are not equiprobable.</p>
+
+<h3>1.2 Frequentist Interpretation</h3>
+<p>Probability is defined as the limit of long-run frequencies:</p>
+<pre>P(A) = lim_{n → ∞} N_A(n) / n</pre>
+<p>It is objective and operational, but cannot assign probabilities to unique or non-repeatable events (e.g., tomorrow's rain).</p>
+
+<h3>1.3 Bayesian Interpretation</h3>
+<p>Probability measures subjective belief. Beliefs are updated using Bayes' theorem:</p>
+<pre>P(A|B) = [P(B|A)P(A)] / P(B)</pre>
+<p>This interpretation handles unique events but depends on prior selection, which critics consider subjective.</p>
+
+<h3>1.4 Geometric Interpretation</h3>
+<p>For continuous sample spaces:</p>
+<pre>P(A) = measure(A) / measure(Ω)</pre>
+<p>Used in problems of lengths, areas, and volumes (e.g., Buffon's needle).</p>
+
+<h3>1.5 How the Axiomatic Approach Resolves Conflicts</h3>
+<p>Kolmogorov’s axioms treat probability as a measure defined on a σ-algebra:</p>
+<ul>
+  <li>Nonnegativity: P(A) ≥ 0</li>
+  <li>Normalization: P(Ω) = 1</li>
+  <li>Countable additivity: P(⋃ Aᵢ) = Σ P(Aᵢ) for disjoint Aᵢ</li>
+</ul>
+<p>The axiomatic approach does not rely on subjective belief, frequency limits, or equiprobability, thus providing a single mathematically consistent framework that all interpretations must respect.</p>
+</div>
+
+<div class="card">
+<h2>2. Probability Theory and Measure Theory</h2>
+
+<h3>2.1 Sample Space (Ω)</h3>
+<p>The set of all possible outcomes.</p>
+
+<h3>2.2 σ-Algebra (𝓕)</h3>
+<p>A collection of subsets of Ω satisfying:</p>
+<ul>
+  <li>Ω ∈ 𝓕</li>
+  <li>If A ∈ 𝓕, then Aᶜ ∈ 𝓕</li>
+  <li>If A₁, A₂, ... ∈ 𝓕, then ⋃ Aᵢ ∈ 𝓕</li>
+</ul>
+<p>This ensures probabilities can be defined consistently even for infinite processes.</p>
+
+<h3>2.3 Probability Measure (P)</h3>
+<p>A function P: 𝓕 → [0,1] satisfying Kolmogorov’s axioms. It generalizes both discrete probabilities and geometric probabilities.</p>
+
+<h3>2.4 Measurable Functions and Random Variables</h3>
+<p>A random variable is a measurable function:</p>
+<pre>X : Ω → ℝ</pre>
+<p>Meaning that for any Borel set B ⊆ ℝ:</p>
+<pre>X⁻¹(B) ∈ 𝓕</pre>
+<p>This connection between probability and measure theory allows defining expectations, distributions, integrals, and convergence precisely.</p>
+</div>
+
+<div class="card">
+<h2>3. Deriving Subadditivity (from the Axioms)</h2>
+
+<h3>Goal:</h3>
+<pre>P(A ∪ B) ≤ P(A) + P(B)</pre>
+
+<h3>Proof:</h3>
+<p>Define:</p>
+<pre>B' = B \ A</pre>
+<p>Then:</p>
+<pre>A ∪ B = A ∪ B'</pre>
+and A and B′ are disjoint.
+
+<p>By countable additivity for disjoint sets:</p>
+<pre>P(A ∪ B) = P(A) + P(B')</pre>
+<p>Because B′ ⊆ B, monotonicity (derived from axioms) implies:</p>
+<pre>P(B') ≤ P(B)</pre>
+<p>Thus:</p>
+<pre>P(A ∪ B) ≤ P(A) + P(B)</pre>
+</div>
+
+<div class="card">
+<h2>4. Inclusion–Exclusion Principle</h2>
+
+<h3>Two Events</h3>
+<pre>P(A ∪ B) = P(A) + P(B) - P(A ∩ B)</pre>
+
+<h3>Three Events</h3>
+<pre>P(A ∪ B ∪ C) = P(A) + P(B) + P(C)
+ - P(A ∩ B) - P(A ∩ C) - P(B ∩ C)
+ + P(A ∩ B ∩ C)</pre>
+
+<h3>General Formula</h3>
+<pre>P(⋃ᵢ Aᵢ) = Σ P(Aᵢ) − Σ P(Aᵢ ∩ Aⱼ)
+ + Σ P(Aᵢ ∩ Aⱼ ∩ Aₖ) − ...</pre>
+<p>The principle corrects overcounting caused by the union operation. It follows directly from additivity and the structure of overlapping sets.</p>
+</div>
+
+</body>
+</html>
